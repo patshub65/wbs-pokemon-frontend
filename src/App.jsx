@@ -7,27 +7,33 @@ import PokemonDetailsPage from './pages/PokemonDetailsPage'
 import RosterPage from './pages/RosterPage'
 import BattlePage from './pages/BattlePage'
 import LeaderboardPage from './pages/LeaderboardPage'
-import { useState } from 'react'
+import PrivateRoute from './components/PrivateRoute'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
     <>
       <Navbar />
       <main style={{ padding: '1rem' }}>
         <Routes>
+          {/* Public */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/pokemon/:id" element={<PokemonDetailsPage />} />
-          <Route path="/roster" element={<RosterPage />} />
-          <Route path="/battle" element={<BattlePage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+
+          {/* Protected */}
+          <Route path="/roster" element={
+            <PrivateRoute><RosterPage /></PrivateRoute>
+          } />
+          <Route path="/battle" element={
+            <PrivateRoute><BattlePage /></PrivateRoute>
+          } />
+
+          <Route path="*" element={<h1>404 — Not Found</h1>} />
         </Routes>
       </main>
     </>
   )
 }
 
-export default App;
